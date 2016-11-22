@@ -3,11 +3,22 @@ package Homework;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class Matrix {
+public class Matrix implements Cloneable {
     private int[][] elements;
 
     public Matrix() {
         elements = new int[0][0];
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Matrix result = new Matrix(getRowCount(), getColCount());
+
+        for (int i = 0; i < getRowCount(); i++) {
+            result.elements[i] = elements[i].clone();
+        }
+
+        return result;
     }
 
     public Matrix(int rowCount, int colCount) {
@@ -23,15 +34,17 @@ public class Matrix {
     }
 
     public int getElement(int row, int col) {
-        if (row > elements.length) throw new IllegalArgumentException();
-        if (col > elements[row].length) throw new IllegalArgumentException();
+        if (row > elements.length || col > elements[row].length) {
+            throw new IllegalArgumentException();
+        }
 
         return elements[row][col];
     }
 
     public void setElement(int row, int col, int element) {
-        if (row > elements.length) throw new IllegalArgumentException();
-        if (col > elements[row].length) throw new IllegalArgumentException();
+        if (row > elements.length || col > elements[row].length) {
+            throw new IllegalArgumentException();
+        }
 
         elements[row][col] = element;
     }
@@ -153,7 +166,8 @@ public class Matrix {
         }
     }
 
-    public boolean equals(Matrix another){
+    public boolean equals(Matrix another) {
         return Arrays.deepEquals(this.elements, another.elements);
     }
+
 }

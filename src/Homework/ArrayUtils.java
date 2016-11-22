@@ -1,5 +1,6 @@
 package Homework;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -27,22 +28,20 @@ public class ArrayUtils {
     }
 
     public static int[] changeSize(int[] array, int size) {
-        if (array != null) {
-            int[] result = new int[size];
-
-            result = Arrays.copyOf(array, Math.min(size, array.length));
-
-            if (size > array.length) {
-                for (int i = array.length; i < size; i++) {
-                    result[i] = 0;
-                }
-            }
-
-            return result;
-        }
-        else{
+        if (array == null) {
             return null;
         }
+        int[] result = new int[size];
+
+        result = Arrays.copyOf(array, Math.min(size, array.length));
+
+        if (size > array.length) {
+            for (int i = array.length; i < size; i++) {
+                result[i] = 0;
+            }
+        }
+
+        return result;
     }
 
     public static int[] shuffle(int[] array) {
@@ -87,5 +86,18 @@ public class ArrayUtils {
         }
 
         return result;
+    }
+
+    public static Integer[] filter(Predicate predicate, int[] array) {
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < array.length; i++) {
+            if (predicate.belongs(array[i])) {
+                result.add(array[i]);
+            }
+        }
+        Integer[] dsf = new Integer[result.size()];
+        result.toArray(dsf);
+        return dsf;
     }
 }
